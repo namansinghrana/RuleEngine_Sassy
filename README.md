@@ -1,132 +1,112 @@
-# Overview
 
-Develop a simple 3-tier rule engine application to determine user eligibility based on attributes like age, department, income, and spend. The system uses Abstract Syntax Tree (AST) to represent conditional rules and allows for dynamic creation, combination, and modification of these rules.
+# Rule Engine with AST
 
-Development Stack: The application is built using the MERN stack (MongoDB, Express, React, Node.js) due to its flexibility, scalability, and suitability for full-stack JavaScript development. The MERN stack allows seamless integration between the frontend and backend, ensuring a smoother development process and a more responsive user interface.
+<img width="959" alt="p1(dark)" src="https://github.com/user-attachments/assets/e17ed6aa-a479-4294-8a1b-09f455e46549">
 
-# Description:
 
-On the home screen of the rule engine application, two main routes are available: one for viewing all stored rules and another for managing rules. The "View All Rules" route displays a list of all rules saved in the database, allowing users to select and view details of individual rules. The "Manage Rules" route provides functionality for creating, merging, and modifying rules. Users can create new rules with unique names, merge multiple rules into one to minimize redundancy, and modify existing rules by altering operators, operand values, or sub-expressions within the AST. The application includes error handling for invalid rule strings and data formats, such as missing operators or invalid comparisons, and validates attributes against a predefined catalog to ensure consistency. These features allow for comprehensive control over rule management, ensuring a robust and user-friendly experience.
+This project is a 3-tier rule engine application designed to determine user eligibility based on attributes such as **age**, **department**, **income**, **spend**, etc. The system uses **Abstract Syntax Tree (AST)** to represent conditional rules, allowing dynamic creation, combination, and modification of these rules.
 
-# Data Structure:
+## Objective
 
-```javascript
-class Node {
-  constructor(type, left = null, right = null, value = null) {
-    this.type = type; // "operator" or "operand"
-    this.left = left; // Reference to the left child Node
-    this.right = right; // Reference to the right child Node
-    this.value = value; // Value for operand nodes
-  }
-}
-```
+The application evaluates complex rules dynamically based on a user's data attributes. The system provides APIs for:
+- Creating rules and converting them into ASTs.
+- Combining multiple rules efficiently.
+- Evaluating rules against user data.
 
-# Data Storage:
+## Key Features
+- **AST Representation**: Uses AST (Abstract Syntax Tree) to define and evaluate rules.
+- **Rule Creation**: Dynamically create rules from strings and represent them in AST form.
+- **Rule Combination**: Efficiently combine multiple rules while avoiding redundant checks.
+- **Rule Evaluation**: Evaluate rules against a user’s data to determine eligibility.
 
-**MongoDB** was chosen for its flexible schema design and scalability, which is well-suited to handle the dynamic nature of rule changes and modifications in the application
+---
+## Functionalities
 
-```javascript
-// Define the schema for the AST node
-const NodeSchema = new mongoose.Schema({
-  type: { type: String, required: true },
-  left: { type: mongoose.Schema.Types.Mixed, default: null },
-  right: { type: mongoose.Schema.Types.Mixed, default: null },
-  value: { type: String, default: null },
-});
+### For Users:
+- **Rule Creation**: Create conditional rules using a simple UI and convert them into Abstract Syntax Trees (AST).
+- **Rule Modification**: Modify existing rules by changing operators, operand values, or adding/removing sub-expressions within the AST.
+- **Rule Evaluation**: Evaluate rules against user attributes (like age, department, salary, experience) to determine eligibility.
+- **Dynamic Rule Combination**: Combine multiple rules into a single AST while minimizing redundant checks using efficient strategies.
+  
+### For Administrators:
+- **Rule Management**: Manage a catalog of user-defined rules, including creating, updating, and deleting rules.
+- **View Rule Details**: View detailed representations of rules in AST format for validation and debugging purposes.
+  
+### General Features:
+- **Simple UI**: User-friendly interface for creating and managing rules.
+- **API Integration**: Well-defined API endpoints for creating, combining, and evaluating rules.
+- **Data Persistence**: Store rules and metadata in a PostgreSQL database to ensure persistence and retrieval.
+- **Error Handling**: Implement error handling for invalid rule strings or data formats to ensure robust application behavior.
+- **Validation**: Validate attributes to ensure they conform to predefined criteria in the rule catalog.
+---
+## Snapshots:
 
-// Define the schema for the Rule
-const RuleSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  ruleAST: { type: NodeSchema, required: true },
-  createdAt: { type: Date, default: Date.now },
-});
+### Light Theme:
+<img width="959" alt="p1" src="https://github.com/user-attachments/assets/daf22079-0680-4b26-aae9-cf6478a63186">
 
-// Create the Rule model
-const Rule = mongoose.model("Rule", RuleSchema);
+### Rules Details:
+<img width="943" alt="p2" src="https://github.com/user-attachments/assets/2e556085-b162-49d3-b125-09bb144c0efe">
 
-module.exports = Rule;
-```
+### Create Rule:
+<img width="959" alt="p3" src="https://github.com/user-attachments/assets/b5e2a38b-9b6e-46aa-a1c8-190b5c07a5bc">
 
-# API Design:
+### Evaluate Rule:
+<img width="954" alt="p4" src="https://github.com/user-attachments/assets/0fccfbef-caca-472d-996c-efaacdca8858">
 
-In this rule engine application, each rule is stored in the database using a unique name. This name serves as the primary identifier for the rule, enabling easy access and modification. To prevent conflicts and ensure smooth operation, it is essential that each rule name be unique. The API includes an endpoint that allows users to retrieve a list of all rule names, providing a quick overview and aiding in the management of existing rules.
+### Database:
+<img width="284" alt="p5" src="https://github.com/user-attachments/assets/c1ba2f39-ee52-44ae-a28e-c8a53860bca0">
 
-# Quickstart Guide
 
-## Setup Instructions
+<img width="958" alt="p6" src="https://github.com/user-attachments/assets/e26ced63-1c75-4f89-8879-f55219676801">
+---
 
-By default, the MongoDB URI and port are present, so you do not need to add different values unless required.
+## Installation & Setup
 
-### Prerequisites
+### Steps to Set Up the Project Locally:
 
-Before you begin, ensure you have met the following requirements:
-
-- Node.js and npm installed on your machine.
-- MongoDB installed and running.
-- Docker and Docker Compose installed (if you plan to use Docker).
-
-### Dependencies
-
-To set up and run the application, you will need the following dependencies:
-
-- **Backend Dependencies** (specified in `backend/package.json`):
-
-  - Express
-  - Mongoose
-  - dotenv
-
-- **Frontend Dependencies** (specified in `frontend/package.json`):
-  - React
-  - Tailwind
-
-### Step-by-Step Setup
-
-#### 1. Clone the Repository
-
-Clone the GitHub repository to your local machine using the following command:
-
-```bash
-git clone https://github.com/skorni24/RuleEngine_AST.git
-cd RuleEngine_AST
-```
-
-### Backend Setup
-
-1. **Navigate to the Backend Directory**
-
+1. Clone the repository:
    ```bash
-   cd backend
+   git clone <repository-url>
    ```
 
-2. **Install Dependencies**
+2. Navigate to the project directory:
    ```bash
-   npm i
-   ```
-3. **Start the Backend Server**
-   ```bash
-   node index.js
+   cd rule-engine
    ```
 
-### Frontend Setup
-
-1. **Navigate to the Backend Directory**
-
+3. Install dependencies:
    ```bash
-   cd frontend
+   npm install
    ```
 
-2. **Install Dependencies**
+4. Set up environment variables:
+   Create a `.env` file with the following keys:
    ```bash
-   npm i
-   ```
-3. **Start the Backend Server**
-   ```bash
-   npm start
+   DB_URL=<your_database_url>
    ```
 
-# Access the Application
+5. Run the project:
+   ```bash
+   npm run dev
+   ```
 
-Once the setup is complete, access the application at:
+---
 
-Frontend: http://localhost:3000
-Backend API: http://localhost:8000
+## Tech Stack
+
+- **Frontend**: Simple UI (React.js or similar)
+- **Backend**: Node.js with Express.js
+- **Database**: PostgreSQL
+- **Rule Engine**: Abstract Syntax Tree (AST)
+- **Deployment**: Docker or a cloud service (optional)
+
+---
+
+## Contact
+
+For any questions or contributions, feel free to reach out via:
+- [LinkedIn](https://www.linkedin.com/)
+- [Email](mailto:youremail@example.com)
+
+---
+
